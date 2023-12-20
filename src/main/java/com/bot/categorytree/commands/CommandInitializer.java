@@ -16,10 +16,12 @@ public class CommandInitializer {
     private final Map<String, BotCommand> commands = new HashMap<>();
 
     private final StartCommand startCommand;
+    private final HelpCommand helpCommand;
 
     @PostConstruct
     public void init() {
         commands.put(BotCommands.START.getName(), startCommand);
+        commands.put(BotCommands.HELP.getName(), helpCommand);
     }
 
     public void check(Update update) {
