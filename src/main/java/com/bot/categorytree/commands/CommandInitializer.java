@@ -14,6 +14,7 @@ public class CommandInitializer {
 
     private final Map<String, BotCommand> commands = new HashMap<>();
 
+    private final ErrorCommand errorCommand;
     private final StartCommand startCommand;
     private final HelpCommand helpCommand;
     private final AddElementCommand addElementCommand;
@@ -27,10 +28,14 @@ public class CommandInitializer {
 
     public void check(Update update) {
         String text = update.getMessage().getText();
-        commands.forEach((key, value) -> {
-            if (text.equals(key)|| text.startsWith(key)) {
+        for (Map.Entry<String, BotCommand> entry : commands.entrySet()) {
+            String key = entry.getKey();
+            BotCommand value = entry.getValue();
+            if (text.equals(key) || text.startsWith(key)) {
                 value.initCommand(update);
+                return;
             }
-        });
+        }
+        errorCommand.initCommand(update);
     }
 }

@@ -15,7 +15,7 @@ public class AddElementCommand implements BotCommand {
     private static final String ERROR_MESSAGE_COMMAND = Emojis.ERROR + "Ошибка " +
             "при добавлении элемента. \n" +
             "Прмер: " + BotCommands.ADD_ELEMENT.getName() +
-            " parrent_el child_ed";
+            "родительский_элемент новый_элемент";
 
     private final MessageService messageService;
     private final CategoryService categoryService;
