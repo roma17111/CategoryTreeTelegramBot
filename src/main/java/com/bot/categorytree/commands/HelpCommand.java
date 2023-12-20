@@ -1,12 +1,14 @@
 package com.bot.categorytree.commands;
 
 import com.bot.categorytree.controllers.MessageService;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Service
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class HelpCommand implements BotCommand {
 
     private static final String TEXT = """
@@ -30,4 +32,5 @@ public class HelpCommand implements BotCommand {
     public void initCommand(Update update) {
         messageService.sendMessage(update, TEXT);
     }
+
 }

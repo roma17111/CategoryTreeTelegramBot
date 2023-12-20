@@ -1,12 +1,14 @@
 package com.bot.categorytree.commands;
 
 import com.bot.categorytree.controllers.MessageService;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class StartCommand implements BotCommand {
 
     private final MessageService messageService;
