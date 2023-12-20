@@ -1,6 +1,7 @@
 spring:
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: db/changelog/master.xml
   datasource:
     url: "jdbc:postgresql://localhost:5432/category_tree"
     username: "user"
@@ -9,7 +10,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     database: postgresql
     database-platform: org.hibernate.dialect.PostgresPlusDialect
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-table-category.1" author="Roman Yakimenko">
+        
+        <preConditions>
+            <not>
+                <tableExists tableName="categories"/>
+            </not>
+        </preConditions>
+        
+        <createTable tableName="categories">
+            <column name="category_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_id" type="BIGINT"/>
+            <column name="level_of_nesting" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_name" type="VARCHAR(30)"/>
+            <column name="category_name" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="categories" indexName="INDEX_OF_CHAT_ID">
+            <column name="chat_id"/>
+        </createIndex>
+
+    </changeSet>
+</databaseChangeLog>
