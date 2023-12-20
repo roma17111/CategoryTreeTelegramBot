@@ -1,4 +1,6 @@
 spring:
+  liquibase:
+    enabled: false
   datasource:
     url: "jdbc:postgresql://localhost:5432/category_tree"
     username: "user"
