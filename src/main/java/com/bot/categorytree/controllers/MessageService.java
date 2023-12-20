@@ -6,8 +6,13 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 
 @Component
 public class MessageService extends DefaultAbsSender {
@@ -38,5 +43,20 @@ public class MessageService extends DefaultAbsSender {
         }
     }
 
+    public void sendPhotoAndText(Update update, String text,
+                                 String url) {
+        long chatId = update.getMessage().getChatId();
+        try (FileInputStream fileInputStream = new FileInputStream(url)) {
+            InputFile file = new InputFile(fileInputStream, "photo.jpeg");
+            SendPhoto photo = SendPhoto.builder()
+                    .photo(file)
+                    .chatId(chatId)
+                    .caption(text)
+                    .build();
+            execute(photo);
+        } catch (IOException | TelegramApiException e) {
+            throw new RuntimeException("Error to send photo");
+        }
+    }
 
 }

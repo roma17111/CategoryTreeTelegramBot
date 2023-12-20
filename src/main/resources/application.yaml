@@ -1,3 +1,18 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/category_tree"
+    username: "user"
+    password: "12345"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgresPlusDialect
+
 bot:
   username: Category Tree Bot
   token: 6907782664:AAFME4ezipCgFIm6_0FMMfZnKIVcenNGie8
+
+

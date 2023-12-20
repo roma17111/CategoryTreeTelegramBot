@@ -26,11 +26,13 @@ public class HelpCommand implements BotCommand {
             /upload Принимает Excel документ с деревом категорий и сохраняет все элементы в базе данных.             
             """;
 
+    private final static String HELP_PHOTO_PATH = "photos/help.jpg";
+
     private final MessageService messageService;
 
     @Override
     public void initCommand(Update update) {
-        messageService.sendMessage(update, TEXT);
+        messageService.sendPhotoAndText(update, TEXT,HELP_PHOTO_PATH);
     }
 
 }

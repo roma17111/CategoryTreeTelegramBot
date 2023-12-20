@@ -11,12 +11,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @EqualsAndHashCode
 public class StartCommand implements BotCommand {
 
+    public static final String PATH_TO_START_PHOTO = "photos/tree.jpg";
+
     private final MessageService messageService;
 
     @Override
     public void initCommand(Update update) {
         String text = getStartText(update);
-        messageService.sendMessage(update, text);
+        messageService.sendPhotoAndText(update, text, PATH_TO_START_PHOTO);
     }
 
     private String getStartText(Update update) {
@@ -28,6 +30,5 @@ public class StartCommand implements BotCommand {
                 создавать, просматривать и удалять дерево категорий.
                 Список команд: /help""", name);
     }
-
 
 }
