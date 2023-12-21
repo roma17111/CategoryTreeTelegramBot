@@ -13,10 +13,8 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     List<Category> findAllByChatId(long chatId);
-
     Category findByChatIdAndCategoryName(long chatId, String categoryName);
     Category findByChatIdAndParentName(long chatId, String parentName);
-
     long countAllByChatId(long chatId);
 
     @Transactional

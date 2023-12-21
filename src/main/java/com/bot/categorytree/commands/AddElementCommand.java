@@ -1,5 +1,7 @@
 package com.bot.categorytree.commands;
 
+import com.bot.categorytree.exeptions.ElementIsAlreadyExistException;
+import com.bot.categorytree.exeptions.ParentNotFoundException;
 import com.bot.categorytree.service.MessageService;
 import com.bot.categorytree.service.CategoryService;
 import com.bot.categorytree.util.CommandValidator;
@@ -31,11 +33,28 @@ public class AddElementCommand implements BotCommand {
                 addRoot(update);
             }
             case 3 -> {
-                messageService.sendMessage(update, "В разработке");
+                addElement(update, elements);
             }
             default -> {
                 messageService.sendMessage(update, ERROR_MESSAGE_COMMAND);
             }
+        }
+    }
+
+    public void addElement(Update update, String[] elements) {
+        long chatId = update.getMessage().getChatId();
+        String parent = elements[1];
+        String child = elements[2];
+        try {
+            categoryService.addElement(parent, child, chatId);
+            messageService.sendMessage(update, Emojis.OK + "Элемент (" + child + ") успешно добавлен.");
+        } catch (ParentNotFoundException e) {
+            messageService.sendMessage(update, Emojis.ERROR + "Родительский элемент не найден");
+            throw new RuntimeException(e);
+        } catch (ElementIsAlreadyExistException e) {
+            messageService.sendMessage(update, Emojis.ERROR + "Ошибка при добавлении элемент!!! " +
+                    "Данный элемент уже существует");
+            throw new RuntimeException(e);
         }
     }
 
