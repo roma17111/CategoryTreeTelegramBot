@@ -18,12 +18,14 @@ public class CommandInitializer {
     private final StartCommand startCommand;
     private final HelpCommand helpCommand;
     private final AddElementCommand addElementCommand;
+    private final RemoveElementCommand removeElementCommand;
 
     @PostConstruct
     public void init() {
         commands.put(BotCommands.START.getName(), startCommand);
         commands.put(BotCommands.HELP.getName(), helpCommand);
         commands.put(BotCommands.ADD_ELEMENT.getName(), addElementCommand);
+        commands.put(BotCommands.REMOVE_ELEMENT.getName(), removeElementCommand);
     }
 
     public void check(Update update) {

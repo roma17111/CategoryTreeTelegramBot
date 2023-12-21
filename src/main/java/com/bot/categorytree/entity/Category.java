@@ -21,14 +21,13 @@ public class Category {
     @Column(name = "chat_id", nullable = false)
     long chatId;
 
-    @Column(name = "parent_id")
-    Long parentId;
-
     @Column(name = "level_of_nesting")
     long levelOfNesting;
 
-    @Column(name = "parent_name", length = 30)
-    String parentName;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_category",
+            referencedColumnName = "category_id")
+    Category parrentCategory;
 
     @Column(name = "category_name", nullable = false, length = 30)
     String categoryName;

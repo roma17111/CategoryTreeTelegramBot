@@ -5,13 +5,13 @@
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="create-table-category.1" author="Roman Yakimenko">
-        
+
         <preConditions>
             <not>
                 <tableExists tableName="categories"/>
             </not>
         </preConditions>
-        
+
         <createTable tableName="categories">
             <column name="category_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -19,11 +19,10 @@
             <column name="chat_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="parent_id" type="BIGINT"/>
             <column name="level_of_nesting" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="parent_name" type="VARCHAR(30)"/>
+            <column name="parent_category" type="BIGINT"/>
             <column name="category_name" type="VARCHAR(30)">
                 <constraints nullable="false"/>
             </column>
@@ -32,6 +31,14 @@
         <createIndex tableName="categories" indexName="INDEX_OF_CHAT_ID">
             <column name="chat_id"/>
         </createIndex>
+
+        <addForeignKeyConstraint
+                onDelete="CASCADE"
+                baseTableName="categories"
+                baseColumnNames="parent_category"
+                constraintName="parent_category"
+                referencedTableName="categories"
+                referencedColumnNames="category_id"/>
 
     </changeSet>
 </databaseChangeLog>

@@ -20,12 +20,32 @@ public class CommandValidator {
         return true;
     }
 
+    public boolean isValidRemoveCommand() {
+        String text = command.trim();
+        if (!text.contains(" ")) {
+            return false;
+        }
+        int cLen = BotCommands.REMOVE_ELEMENT.getName().length();
+        if (text.charAt(cLen) != ' ') {
+            return false;
+        }
+        return true;
+    }
+
     public String getRoot() {
         if (!isValidCommand()) {
             return "";
         } else {
             String[] strings = command.trim().split(" ");
             return strings[1].trim();
+        }
+    }
+
+    public String getRemoveElement() {
+        if (!isValidRemoveCommand()) {
+            return "";
+        } else {
+            return command.trim().split(" ")[1];
         }
     }
 

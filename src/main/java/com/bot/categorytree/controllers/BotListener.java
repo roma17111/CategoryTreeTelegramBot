@@ -2,7 +2,6 @@ package com.bot.categorytree.controllers;
 
 import com.bot.categorytree.commands.CommandInitializer;
 import com.bot.categorytree.configuration.BotConfig;
-import com.bot.categorytree.service.MessageService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -12,13 +11,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class BotListener extends TelegramLongPollingBot {
 
     private final BotConfig botConfig;
-    private final MessageService messageService;
+
     private final CommandInitializer commandInitializer;
 
-    public BotListener(BotConfig botConfig, MessageService messageService, CommandInitializer commandInitializer) {
+    public BotListener(BotConfig botConfig, CommandInitializer commandInitializer) {
         super(botConfig.getBotToken());
         this.botConfig = botConfig;
-        this.messageService = messageService;
         this.commandInitializer = commandInitializer;
     }
 
