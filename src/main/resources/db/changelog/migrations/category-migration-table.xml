@@ -29,6 +29,9 @@
             <column name="callback" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
+            <column name="back_callback" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <createIndex tableName="categories" indexName="INDEX_OF_CHAT_ID">

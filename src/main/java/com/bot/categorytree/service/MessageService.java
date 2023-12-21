@@ -35,6 +35,7 @@ public class MessageService {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(text)
+                .parseMode(ParseMode.HTML)
                 .build();
         try {
             messageSender.execute(sendMessage);
@@ -95,5 +96,20 @@ public class MessageService {
         }
     }
 
-
+    public void editMessage(Update update,
+                            String text) {
+        long chatId = update.getCallbackQuery().getMessage().getChatId();
+        int messageId = update.getCallbackQuery().getMessage().getMessageId();
+        EditMessageText message = EditMessageText.builder()
+                .chatId(chatId)
+                .messageId(messageId)
+                .text(text)
+                .parseMode(ParseMode.HTML)
+                .build();
+        try {
+            messageSender.execute(message);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

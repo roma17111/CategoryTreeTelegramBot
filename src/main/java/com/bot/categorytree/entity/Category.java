@@ -34,5 +34,7 @@ public class Category {
 
     @Column(name = "callback", nullable = false, length = 200)
     String callback;
+    @Column(name = "back_callback", nullable = false, length = 200)
+    String backCallback;
 
 }

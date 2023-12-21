@@ -29,6 +29,7 @@ public class CategoryService {
                 .categoryName(root.toLowerCase())
                 .chatId(chatId)
                 .callback(UUID.randomUUID().toString())
+                .backCallback(UUID.randomUUID().toString())
                 .levelOfNesting(0)
                 .build();
         categoryRepository.save(category);
@@ -51,6 +52,7 @@ public class CategoryService {
             Category category = Category.builder()
                     .chatId(chatId)
                     .callback(UUID.randomUUID().toString())
+                    .backCallback(UUID.randomUUID().toString())
                     .categoryName(childEl.toLowerCase())
                     .parrentCategory(parent)
                     .levelOfNesting(levelOfNesting)
@@ -83,5 +85,11 @@ public class CategoryService {
         return categoryRepository.findAllByChatId(chatId);
     }
 
+    public Category getRoot() {
+        return categoryRepository.findRoot();
+    }
 
+    public List<Category> findAllByParentCategory(Category category) {
+        return categoryRepository.findAllByParrentCategory(category);
+    }
 }
