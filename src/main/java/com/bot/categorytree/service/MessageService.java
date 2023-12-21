@@ -3,10 +3,13 @@ package com.bot.categorytree.service;
 import com.bot.categorytree.controllers.BotMessageSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.FileInputStream;
@@ -53,6 +56,42 @@ public class MessageService {
             messageSender.execute(photo);
         } catch (IOException | TelegramApiException e) {
             throw new RuntimeException("Error to send photo");
+        }
+    }
+
+    public void sendMessagePlusKeyboard(Update update,
+                                        String text,
+                                        InlineKeyboardMarkup markup) {
+        long chatId = update.getMessage().getChatId();
+        SendMessage message = SendMessage.builder()
+                .chatId(chatId)
+                .text(text)
+                .replyMarkup(markup)
+                .parseMode(ParseMode.HTML)
+                .build();
+        try {
+            messageSender.execute(message);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void editMessagePlusKeyboard(Update update,
+                                        String text,
+                                        InlineKeyboardMarkup markup) {
+        long chatId = update.getCallbackQuery().getMessage().getChatId();
+        int messageId = update.getCallbackQuery().getMessage().getMessageId();
+        EditMessageText message = EditMessageText.builder()
+                .chatId(chatId)
+                .messageId(messageId)
+                .text(text)
+                .replyMarkup(markup)
+                .parseMode(ParseMode.HTML)
+                .build();
+        try {
+            messageSender.execute(message);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
         }
     }
 

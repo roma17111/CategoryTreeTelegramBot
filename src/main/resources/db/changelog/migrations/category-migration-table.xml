@@ -26,6 +26,9 @@
             <column name="category_name" type="VARCHAR(30)">
                 <constraints nullable="false"/>
             </column>
+            <column name="callback" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <createIndex tableName="categories" indexName="INDEX_OF_CHAT_ID">

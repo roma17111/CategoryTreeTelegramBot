@@ -32,4 +32,7 @@ public class Category {
     @Column(name = "category_name", nullable = false, length = 30)
     String categoryName;
 
+    @Column(name = "callback", nullable = false, length = 200)
+    String callback;
+
 }

@@ -1,5 +1,6 @@
 package com.bot.categorytree.commands;
 
+import com.bot.categorytree.callback.BotCallback;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ public class CommandInitializer {
     private final HelpCommand helpCommand;
     private final AddElementCommand addElementCommand;
     private final RemoveElementCommand removeElementCommand;
+    private final ViewTreeCommand viewTreeCommand;
 
     @PostConstruct
     public void init() {
@@ -26,6 +28,7 @@ public class CommandInitializer {
         commands.put(BotCommands.HELP.getName(), helpCommand);
         commands.put(BotCommands.ADD_ELEMENT.getName(), addElementCommand);
         commands.put(BotCommands.REMOVE_ELEMENT.getName(), removeElementCommand);
+        commands.put(BotCommands.VIEW_TREE.getName(), viewTreeCommand);
     }
 
     public void check(Update update) {
