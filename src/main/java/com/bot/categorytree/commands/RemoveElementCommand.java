@@ -18,7 +18,7 @@ public class RemoveElementCommand implements BotCommand {
     private final MessageService messageService;
 
     private static final String ERROR_MESSAGE = Emojis.ERROR + "Ошибка при удалении элемента!\n" +
-            "Присер: /removeElement <название элемента>";
+            "Пример: /removeElement <b>название элемента<?b>";
 
     @Override
     public void initCommand(Update update) {
