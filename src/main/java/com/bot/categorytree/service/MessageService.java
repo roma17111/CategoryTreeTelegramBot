@@ -1,10 +1,8 @@
-package com.bot.categorytree.controllers;
+package com.bot.categorytree.service;
 
-import com.bot.categorytree.configuration.BotConfig;
-import jakarta.annotation.PostConstruct;
+import com.bot.categorytree.controllers.BotMessageSender;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.DefaultAbsSender;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -15,11 +13,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 @Component
-public class MessageService extends DefaultAbsSender {
+@RequiredArgsConstructor
+public class MessageService {
 
-    public MessageService(BotConfig config) {
-        super(new DefaultBotOptions(), config.getBotToken());
-    }
+    private final BotMessageSender messageSender;
 
     public String getFirstname(Update update) {
         String name = update.getMessage().getChat().getFirstName();
@@ -37,7 +34,7 @@ public class MessageService extends DefaultAbsSender {
                 .text(text)
                 .build();
         try {
-            execute(sendMessage);
+            messageSender.execute(sendMessage);
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +50,7 @@ public class MessageService extends DefaultAbsSender {
                     .chatId(chatId)
                     .caption(text)
                     .build();
-            execute(photo);
+            messageSender.execute(photo);
         } catch (IOException | TelegramApiException e) {
             throw new RuntimeException("Error to send photo");
         }

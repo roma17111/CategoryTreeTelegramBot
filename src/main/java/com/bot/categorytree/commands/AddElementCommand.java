@@ -1,15 +1,17 @@
 package com.bot.categorytree.commands;
 
-import com.bot.categorytree.controllers.MessageService;
+import com.bot.categorytree.service.MessageService;
 import com.bot.categorytree.service.CategoryService;
 import com.bot.categorytree.util.CommandValidator;
 import com.bot.categorytree.util.Emojis;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Service
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class AddElementCommand implements BotCommand {
 
     private static final String ERROR_MESSAGE_COMMAND = Emojis.ERROR + "Ошибка " +
@@ -44,7 +46,7 @@ public class AddElementCommand implements BotCommand {
         } else if (!categoryService.addRoot(update, root)) {
             messageService.sendMessage(update, Emojis.ERROR + "Корень уже существует. Удалите текущий корень.");
         } else {
-            messageService.sendMessage(update, Emojis.OK + "Корень " + root + " добавлен к дереву.");
+            messageService.sendMessage(update, Emojis.OK + "Корень (" + root + ") добавлен к дереву.");
         }
     }
 

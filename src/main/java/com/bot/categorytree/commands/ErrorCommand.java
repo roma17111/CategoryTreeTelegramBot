@@ -1,6 +1,6 @@
 package com.bot.categorytree.commands;
 
-import com.bot.categorytree.controllers.MessageService;
+import com.bot.categorytree.service.MessageService;
 import com.bot.categorytree.util.Emojis;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
