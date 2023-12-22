@@ -22,6 +22,7 @@ public class CommandInitializer {
     private final RemoveElementCommand removeElementCommand;
     private final ViewTreeCommand viewTreeCommand;
     private final DownloadCommand downloadCommand;
+    private final UploadBotCommend uploadBotCommend;
 
     @PostConstruct
     public void init() {
@@ -31,6 +32,7 @@ public class CommandInitializer {
         commands.put(BotCommands.REMOVE_ELEMENT.getName(), removeElementCommand);
         commands.put(BotCommands.VIEW_TREE.getName(), viewTreeCommand);
         commands.put(BotCommands.DOWNLOAD.getName(), downloadCommand);
+        commands.put(BotCommands.UPLOAD.getName(), uploadBotCommend);
     }
 
     public void check(Update update) {
