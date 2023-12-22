@@ -3,11 +3,13 @@ package com.bot.categorytree.service;
 import com.bot.categorytree.controllers.BotMessageSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -23,6 +25,16 @@ import java.io.InputStream;
 public class MessageService {
 
     private final BotMessageSender messageSender;
+
+    public File executeFile(GetFile file) {
+        File file1 = null;
+        try {
+            file1 = messageSender.execute(file);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+        return file1;
+    }
 
     public String getFirstname(Update update) {
         String name = update.getMessage().getChat().getFirstName();
@@ -120,7 +132,7 @@ public class MessageService {
                              String path,
                              String caption) {
         long chatId = update.getMessage().getChatId();
-        try (InputStream inputStream = new FileInputStream(path)){
+        try (InputStream inputStream = new FileInputStream(path)) {
             InputFile inputFile = new InputFile(inputStream, path.substring(path.indexOf("/")));
             SendDocument document = SendDocument.builder()
                     .document(inputFile)

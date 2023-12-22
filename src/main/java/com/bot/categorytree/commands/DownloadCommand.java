@@ -24,7 +24,7 @@ public class DownloadCommand implements BotCommand {
     public void initCommand(Update update) {
         String file = getFIlePath(update);
         if (file.isEmpty()) {
-            messageService.sendMessage(update, Emojis.ERROR + "Ваше дерево катекорий пусто");
+            messageService.sendMessage(update, Emojis.ERROR + "Ваше дерево категорий пусто");
         } else {
             messageService.sendDocument(update, file, "Вот ваш excel document" + Emojis.SMILE);
         }

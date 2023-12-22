@@ -12,8 +12,7 @@ public class BotContextService {
 
     private final BotContextRepository contextRepository;
 
-
-    private BotContext getActualContext(Update update, long chatId) {
+    private BotContext getActualContext(long chatId) {
         BotContext botContext = contextRepository.findByChatId(chatId);
         if (botContext == null) {
             botContext = BotContext.builder()
@@ -25,12 +24,17 @@ public class BotContextService {
         return botContext;
     }
 
-    private void initDownload(Update update,
-                                 long chatId,
-                                 boolean status) {
-        BotContext context = getActualContext(update, chatId);
+    public void initDownload(long chatId,
+                              boolean status) {
+        BotContext context = getActualContext(chatId);
         context.setExcelInDownload(status);
         contextRepository.save(context);
+    }
+
+    public boolean inStatusDownloadExcel(Update update) {
+        long chatId = update.getMessage().getChatId();
+        BotContext context = getActualContext(chatId);
+        return context.isExcelInDownload();
     }
 
 

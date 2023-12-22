@@ -1,12 +1,12 @@
 package com.bot.categorytree.callback;
 
+import com.bot.categorytree.commands.UploadBotCommend;
 import com.bot.categorytree.entity.Category;
 import com.bot.categorytree.service.CategoryService;
 import com.bot.categorytree.service.MessageService;
 import com.bot.categorytree.util.Emojis;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -16,10 +16,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BotCallback {
+public class BotCallback implements Callback{
 
     private final CategoryService categoryService;
     private final MessageService messageService;
+    private final UploadBotCommend uploadBotCommend;
 
 
     private void setCategoryKeyboard(Update update, Category category) {
@@ -76,6 +77,7 @@ public class BotCallback {
     }
 
 
+    @Override
     public void ifCallback(Update update) {
         String data = update.getCallbackQuery().getData();
         long chatId = update.getCallbackQuery().getMessage().getChatId();
@@ -90,6 +92,7 @@ public class BotCallback {
         if (data == null) {
             messageService.editMessage(update, "тык-тык");
         }
+        uploadBotCommend.ifCallback(update);
     }
 
     private void getNullableTree(Update update) {
