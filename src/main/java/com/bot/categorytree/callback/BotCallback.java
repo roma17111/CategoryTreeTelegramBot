@@ -23,6 +23,7 @@ public class BotCallback {
 
 
     private void setCategoryKeyboard(Update update, Category category) {
+        long chatId = update.getCallbackQuery().getMessage().getChatId();
         String element = "";
         long levelNesting = category.getLevelOfNesting();
         if (levelNesting == 0) {
@@ -31,7 +32,7 @@ public class BotCallback {
             element = "Родительская категория";
         }
         String text = String.format("Сртруктура дерева:\n\n%s <b>%s</b>", element, category.getCategoryName());
-        List<Category> categoryList = categoryService.findAllByParentCategory(category);
+        List<Category> categoryList = categoryService.findAllByParentCategoryAndChatId(category, chatId);
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         if (!categoryList.isEmpty()) {
@@ -51,13 +52,14 @@ public class BotCallback {
     }
 
     public void getCategoryKeyboard(Update update) {
-        Category category = categoryService.getRoot();
+        long chatId = update.getMessage().getChatId();
+        Category category = categoryService.getRootByChatId(chatId);
         if (category == null) {
             getNullableTree(update);
             return;
         }
         String text = String.format("Сртруктура дерева:\n\nКорень <b>%s</b>", category.getCategoryName());
-        List<Category> categoryList = categoryService.findAllByParentCategory(category);
+        List<Category> categoryList = categoryService.findAllByParentCategoryAndChatId(category, chatId);
         if (categoryList == null || categoryList.isEmpty()) {
             messageService.sendMessage(update, text);
             return;
@@ -86,7 +88,7 @@ public class BotCallback {
             }
         });
         if (data == null) {
-            messageService.editMessage(update,"тык-тык");
+            messageService.editMessage(update, "тык-тык");
         }
     }
 

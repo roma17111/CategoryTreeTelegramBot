@@ -85,11 +85,19 @@ public class CategoryService {
         return categoryRepository.findAllByChatId(chatId);
     }
 
-    public Category getRoot() {
-        return categoryRepository.findRoot();
+    public Category getRootByChatId(long chatId) {
+        return categoryRepository.findRootByChatId(chatId);
     }
 
-    public List<Category> findAllByParentCategory(Category category) {
-        return categoryRepository.findAllByParrentCategory(category);
+    public List<Category> findAllByParentCategoryAndChatId(Category category, long chatId) {
+        return categoryRepository.findAllByParrentCategoryAndChatId(category, chatId);
+    }
+
+    public int getMaxLevelOfNesting() {
+        return categoryRepository.findMaxLevelOfNesting();
+    }
+
+    public long countAllByParentCategoryAndChatId(Category parent, long chatId) {
+        return categoryRepository.countAllByParrentCategoryAndChatId(parent, chatId);
     }
 }

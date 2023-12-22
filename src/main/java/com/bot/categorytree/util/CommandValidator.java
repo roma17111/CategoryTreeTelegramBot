@@ -10,6 +10,11 @@ public class CommandValidator {
 
     private boolean isValidCommand() {
         String text = command.trim();
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isDigit(text.charAt(i))) {
+                return false;
+            }
+        }
         if (!text.contains(" ")) {
             return false;
         }

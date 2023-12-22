@@ -4,6 +4,7 @@ import com.bot.categorytree.controllers.BotMessageSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -13,7 +14,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Component
 @RequiredArgsConstructor
@@ -112,4 +115,24 @@ public class MessageService {
             throw new RuntimeException(e);
         }
     }
+
+    public void sendDocument(Update update,
+                             String path,
+                             String caption) {
+        long chatId = update.getMessage().getChatId();
+        try (InputStream inputStream = new FileInputStream(path)){
+            InputFile inputFile = new InputFile(inputStream, path.substring(path.indexOf("/")));
+            SendDocument document = SendDocument.builder()
+                    .document(inputFile)
+                    .caption(caption)
+                    .chatId(chatId)
+                    .parseMode(ParseMode.HTML)
+                    .build();
+            messageSender.execute(document);
+        } catch (IOException | TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }
