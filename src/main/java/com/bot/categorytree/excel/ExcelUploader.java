@@ -39,6 +39,9 @@ public class ExcelUploader implements Callable<Boolean> {
             return false;
         }
 
+        long chatId = update.getMessage().getChatId();
+        categoryService.deleteAllByChatId(chatId);
+
         int count = 0;
 
         try (Workbook workbook = new XSSFWorkbook(file)) {

@@ -28,4 +28,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     int findMaxLevelOfNesting();
 
     long countAllByParrentCategoryAndChatId(Category parentCategory, long chatId);
+
+    void deleteAllByChatId(long chatId);
 }

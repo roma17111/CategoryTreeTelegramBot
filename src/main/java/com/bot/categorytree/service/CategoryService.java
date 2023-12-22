@@ -93,6 +93,11 @@ public class CategoryService {
         return categoryRepository.findAllByParrentCategoryAndChatId(category, chatId);
     }
 
+    public void deleteAllByChatId(long chatId) {
+        Category root = getRootByChatId(chatId);
+        categoryRepository.delete(root);
+    }
+
     public int getMaxLevelOfNesting() {
         return categoryRepository.findMaxLevelOfNesting();
     }
@@ -100,4 +105,6 @@ public class CategoryService {
     public long countAllByParentCategoryAndChatId(Category parent, long chatId) {
         return categoryRepository.countAllByParrentCategoryAndChatId(parent, chatId);
     }
+
+
 }
