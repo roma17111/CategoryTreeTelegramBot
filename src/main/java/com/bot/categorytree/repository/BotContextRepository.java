@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface BotContextRepository extends JpaRepository<BotContext,Long> {
 
     BotContext findByChatId(long chatId);
+
+
 }

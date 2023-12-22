@@ -1,5 +1,6 @@
 package com.bot.categorytree.controllers;
 
+import com.bot.categorytree.botDocuments.DocumentsHandler;
 import com.bot.categorytree.callback.BotCallback;
 import com.bot.categorytree.commands.CommandInitializer;
 import com.bot.categorytree.configuration.BotConfig;
@@ -15,12 +16,14 @@ public class BotListener extends TelegramLongPollingBot {
 
     private final CommandInitializer commandInitializer;
     private final BotCallback botCallback;
+    private final DocumentsHandler documentsHandler;
 
-    public BotListener(BotConfig botConfig, CommandInitializer commandInitializer, BotCallback botCallback) {
+    public BotListener(BotConfig botConfig, CommandInitializer commandInitializer, BotCallback botCallback, DocumentsHandler documentsHandler) {
         super(botConfig.getBotToken());
         this.botConfig = botConfig;
         this.commandInitializer = commandInitializer;
         this.botCallback = botCallback;
+        this.documentsHandler = documentsHandler;
     }
 
     @PostConstruct
@@ -34,6 +37,8 @@ public class BotListener extends TelegramLongPollingBot {
             commandInitializer.check(update);
         } else if (update.hasCallbackQuery()) {
             botCallback.ifCallback(update);
+        } else if (update.hasMessage()&& update.getMessage().hasDocument()) {
+            documentsHandler.init(update);
         }
     }
 
