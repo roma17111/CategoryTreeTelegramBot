@@ -68,6 +68,7 @@ public class MessageService {
                     .photo(file)
                     .chatId(chatId)
                     .caption(text)
+                    .parseMode(ParseMode.HTML)
                     .build();
             messageSender.execute(photo);
         } catch (IOException | TelegramApiException e) {
