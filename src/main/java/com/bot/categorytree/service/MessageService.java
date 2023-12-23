@@ -2,6 +2,7 @@ package com.bot.categorytree.service;
 
 import com.bot.categorytree.controllers.BotMessageSender;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class MessageService {
 
     private final BotMessageSender messageSender;
@@ -42,7 +44,7 @@ public class MessageService {
         try {
             file1 = messageSender.execute(file);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(),e);
         }
         return file1;
     }
@@ -66,7 +68,7 @@ public class MessageService {
         try {
             messageSender.execute(sendMessage);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(),e);
         }
     }
 
@@ -83,7 +85,7 @@ public class MessageService {
                     .build();
             messageSender.execute(photo);
         } catch (IOException | TelegramApiException e) {
-            throw new RuntimeException("Error to send photo");
+            log.error(e.getMessage(),e);
         }
     }
 
@@ -100,7 +102,7 @@ public class MessageService {
         try {
             messageSender.execute(message);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(),e);
         }
     }
 
@@ -119,7 +121,7 @@ public class MessageService {
         try {
             messageSender.execute(message);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(),e);
         }
     }
 
@@ -136,7 +138,7 @@ public class MessageService {
         try {
             messageSender.execute(message);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(),e);
         }
     }
 
@@ -154,7 +156,7 @@ public class MessageService {
                     .build();
             messageSender.execute(document);
         } catch (IOException | TelegramApiException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(),e);
         }
 
     }

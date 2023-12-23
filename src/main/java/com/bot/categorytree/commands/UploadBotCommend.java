@@ -2,7 +2,6 @@ package com.bot.categorytree.commands;
 
 import com.bot.categorytree.callback.Callback;
 import com.bot.categorytree.service.BotContextService;
-import com.bot.categorytree.service.CategoryService;
 import com.bot.categorytree.service.MessageService;
 import com.bot.categorytree.util.Emojis;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
 import java.util.ArrayList;
 import java.util.List;
 

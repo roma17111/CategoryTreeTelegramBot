@@ -29,9 +29,6 @@ public class Category {
     @Column(name = "chat_id", nullable = false)
     long chatId;
 
-    @Column(name = "level_of_nesting")
-    long levelOfNesting;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_category",
             referencedColumnName = "category_id")

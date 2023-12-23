@@ -8,6 +8,7 @@ import com.bot.categorytree.util.CommandValidator;
 import com.bot.categorytree.util.Emojis;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -19,6 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Service
 @RequiredArgsConstructor
 @EqualsAndHashCode
+@Slf4j
 public class AddElementCommand implements BotCommand {
 
     private static final String ERROR_MESSAGE_COMMAND = Emojis.ERROR + "Ошибка " +
@@ -69,6 +71,7 @@ public class AddElementCommand implements BotCommand {
         } catch (ParentNotFoundException e) {
             messageService.sendMessage(update, Emojis.ERROR + "Родительский элемент не найден");
         } catch (ElementIsAlreadyExistException e) {
+            log.error(e.getMessage(),e);
             messageService.sendMessage(update, Emojis.ERROR + "Ошибка при добавлении элемент!!! " +
                     "Данный элемент уже существует");
         }

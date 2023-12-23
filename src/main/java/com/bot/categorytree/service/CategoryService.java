@@ -7,6 +7,7 @@ import com.bot.categorytree.exeptions.ParentNotFoundException;
 import com.bot.categorytree.exeptions.RemoveElementException;
 import com.bot.categorytree.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -20,6 +21,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -42,7 +44,6 @@ public class CategoryService {
                 .chatId(chatId)
                 .callback(UUID.randomUUID().toString())
                 .backCallback(UUID.randomUUID().toString())
-                .levelOfNesting(0)
                 .build();
         categoryRepository.save(category);
         return true;
@@ -70,14 +71,12 @@ public class CategoryService {
         if (child != null) {
             throw new ElementIsAlreadyExistException();
         } else {
-            long levelOfNesting = parent.getLevelOfNesting() + 1;
             Category category = Category.builder()
                     .chatId(chatId)
                     .callback(UUID.randomUUID().toString())
                     .backCallback(UUID.randomUUID().toString())
                     .categoryName(childEl.toLowerCase())
                     .parrentCategory(parent)
-                    .levelOfNesting(levelOfNesting)
                     .build();
             categoryRepository.save(category);
         }
@@ -100,6 +99,7 @@ public class CategoryService {
             category.setParrentCategory(null);
             categoryRepository.delete(category);
         } catch (Exception e) {
+            log.error(e.getMessage(),e);
             throw new RemoveElementException();
         }
 
@@ -131,7 +131,7 @@ public class CategoryService {
      * @return root
      */
     public Category getRootByChatId(long chatId) {
-        return categoryRepository.findRootByChatId(chatId);
+        return categoryRepository.findFirstByChatId(chatId);
     }
 
     /**

@@ -17,8 +17,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     long countAllByChatId(long chatId);
 
-    @Query(value = "select * from categories where level_of_nesting =0 and chat_id = :chat_id", nativeQuery = true)
-    Category findRootByChatId(@Param("chat_id") long chatId);
+    Category findFirstByChatId(long chatId);
 
     List<Category> findAllByParrentCategoryAndChatId(Category category , long chatId);
 

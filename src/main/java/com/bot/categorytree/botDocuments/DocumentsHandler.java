@@ -11,6 +11,7 @@ import com.bot.categorytree.service.MessageService;
 import com.bot.categorytree.util.Emojis;
 import javassist.bytecode.analysis.Executor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ import java.util.concurrent.Executors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DocumentsHandler {
 
     private final BotContextService contextService;
@@ -68,6 +70,7 @@ public class DocumentsHandler {
                      ElementIsAlreadyExistException |
                      ParentNotFoundException |
                      InvalidFormatException e) {
+                log.error(e.getMessage(),e);
                 messageService.sendMessage(update, Emojis.ERROR + "Ошибка при выгрузке документа!!!");
             } finally {
                 contextService.initDownload(chatId, false);

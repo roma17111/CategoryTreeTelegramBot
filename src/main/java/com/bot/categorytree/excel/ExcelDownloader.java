@@ -3,6 +3,7 @@ package com.bot.categorytree.excel;
 import com.bot.categorytree.entity.Category;
 import com.bot.categorytree.service.CategoryService;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -21,6 +22,7 @@ import java.util.concurrent.Callable;
  * пользователю
  */
 
+@Slf4j
 public class ExcelDownloader {
 
     private static final String CATEGORY_TREE = "documents/category tree ";
@@ -72,7 +74,7 @@ public class ExcelDownloader {
             }
             workbook.write(outputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(),e);
         }
         return file;
     }

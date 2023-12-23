@@ -5,17 +5,17 @@ import com.bot.categorytree.exeptions.InvalidExcelException;
 import com.bot.categorytree.exeptions.ParentNotFoundException;
 import com.bot.categorytree.service.CategoryService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.Callable;
+
 
 /**
  * Класс для обработки
@@ -25,6 +25,7 @@ import java.util.concurrent.Callable;
  */
 
 @AllArgsConstructor
+@Slf4j
 public class ExcelUploader {
 
 
@@ -55,7 +56,9 @@ public class ExcelUploader {
         long chatId = update.getMessage().getChatId();
 
         //Очистка БД
-        categoryService.deleteAllByChatId(chatId);
+        if (categoryService.countAllTrees(chatId) > 0) {
+            categoryService.deleteAllByChatId(chatId);
+        }
 
         int count = 0;
 
@@ -121,6 +124,7 @@ public class ExcelUploader {
                 }
             }
         } catch (IOException | InvalidFormatException e) {
+            log.error(e.getMessage(),e);
             throw new InvalidExcelException();
         }
         return true;

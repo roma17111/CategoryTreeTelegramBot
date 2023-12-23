@@ -41,8 +41,8 @@ public class BotCallback implements Callback {
     private void setCategoryKeyboard(Update update, Category category) {
         long chatId = update.getCallbackQuery().getMessage().getChatId();
         String element = "";
-        long levelNesting = category.getLevelOfNesting();
-        if (levelNesting == 0) {
+        boolean isRoot = categoryService.getRootByChatId(chatId).equals(category);
+        if (isRoot) {
             element = "Корень";
         } else {
             element = "Родительская категория";
@@ -58,7 +58,7 @@ public class BotCallback implements Callback {
                 rows.add(List.of(button));
             });
         }
-        if (levelNesting > 0) {
+        if (!isRoot) {
             InlineKeyboardButton back = new InlineKeyboardButton(Emojis.BACK + "Назад");
             back.setCallbackData(category.getBackCallback());
             rows.add(List.of(back));

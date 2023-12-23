@@ -1,6 +1,7 @@
 package com.bot.categorytree.configuration;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
 @Getter
+@Slf4j
 public class BotConfig {
 
     @Value("${bot.username}")
@@ -37,7 +39,7 @@ public class BotConfig {
             TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
             api.registerBot(bot);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(),e);
         }
     }
 

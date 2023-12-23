@@ -7,6 +7,7 @@ import com.bot.categorytree.service.MessageService;
 import com.bot.categorytree.util.CommandValidator;
 import com.bot.categorytree.util.Emojis;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -17,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RemoveElementCommand implements BotCommand {
 
     private final CategoryService categoryService;
@@ -44,8 +46,10 @@ public class RemoveElementCommand implements BotCommand {
                 messageService.sendMessage(update, Emojis.OK + "Категория и все её дочерние категории " +
                         "успешно удалены.");
             } catch (CategoryNotFoundException e) {
+                log.error(e.getMessage(),e);
                 messageService.sendMessage(update, Emojis.ERROR + "Категория не найдена!!!");
             } catch (RemoveElementException e) {
+                log.error(e.getMessage(),e);
                 messageService.sendMessage(update, Emojis.ERROR + "Ошибка!!! Не удалось удалить элемент.");
             }
         }
