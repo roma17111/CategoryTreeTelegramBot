@@ -68,11 +68,9 @@ public class AddElementCommand implements BotCommand {
             messageService.sendMessage(update, Emojis.OK + "Элемент (" + child + ") успешно добавлен.");
         } catch (ParentNotFoundException e) {
             messageService.sendMessage(update, Emojis.ERROR + "Родительский элемент не найден");
-            throw new RuntimeException(e);
         } catch (ElementIsAlreadyExistException e) {
             messageService.sendMessage(update, Emojis.ERROR + "Ошибка при добавлении элемент!!! " +
                     "Данный элемент уже существует");
-            throw new RuntimeException(e);
         }
     }
 

@@ -26,6 +26,17 @@ public class MessageService {
 
     private final BotMessageSender messageSender;
 
+
+    public java.io.File download(String filePath) {
+        java.io.File file = null;
+        try {
+            file = messageSender.downloadFile(filePath);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
+    }
+
     public File executeFile(GetFile file) {
         File file1 = null;
         try {

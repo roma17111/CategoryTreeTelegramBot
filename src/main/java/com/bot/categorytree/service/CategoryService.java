@@ -98,7 +98,6 @@ public class CategoryService {
         }
         try {
             category.setParrentCategory(null);
-            categoryRepository.save(category);
             categoryRepository.delete(category);
         } catch (Exception e) {
             throw new RemoveElementException();

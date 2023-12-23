@@ -45,10 +45,8 @@ public class RemoveElementCommand implements BotCommand {
                         "успешно удалены.");
             } catch (CategoryNotFoundException e) {
                 messageService.sendMessage(update, Emojis.ERROR + "Категория не найдена!!!");
-                throw new RuntimeException(e);
             } catch (RemoveElementException e) {
                 messageService.sendMessage(update, Emojis.ERROR + "Ошибка!!! Не удалось удалить элемент.");
-                throw new RuntimeException(e);
             }
         }
     }

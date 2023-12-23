@@ -25,7 +25,7 @@ import java.util.concurrent.Callable;
  */
 
 @AllArgsConstructor
-public class ExcelUploader implements Callable<Boolean> {
+public class ExcelUploader {
 
 
     private final CategoryService categoryService;
@@ -33,10 +33,7 @@ public class ExcelUploader implements Callable<Boolean> {
     private final Update update;
 
 
-    @Override
-    public Boolean call() throws Exception {
-        return upload(file);
-    }
+
 
     /**
      * Метод с основной логикой по
@@ -50,7 +47,7 @@ public class ExcelUploader implements Callable<Boolean> {
      * @throws ParentNotFoundException Корневой элемент не найден в базе
      */
 
-    private boolean upload(File file) throws InvalidExcelException, IOException, InvalidFormatException, ElementIsAlreadyExistException, ParentNotFoundException {
+    public boolean upload(File file) throws InvalidExcelException, IOException, InvalidFormatException, ElementIsAlreadyExistException, ParentNotFoundException {
         if (!isValidExcel(file)) {
             return false;
         }

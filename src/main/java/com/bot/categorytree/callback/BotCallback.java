@@ -104,7 +104,6 @@ public class BotCallback implements Callback {
         long chatId = update.getCallbackQuery().getMessage().getChatId();
         categoryService.getTree(chatId).forEach(el -> {
             if (data.equals(el.getCallback())) {
-                System.out.println(el);
                 setCategoryKeyboard(update, el);
             } else if (data.equals(el.getBackCallback())) {
                 setCategoryKeyboard(update, el.getParrentCategory());

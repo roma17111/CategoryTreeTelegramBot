@@ -51,18 +51,7 @@ public class DownloadCommand implements BotCommand {
      * @return path to excel file
      */
     private String getFIlePath(Update update) {
-        String result = "";
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
         ExcelDownloader excelDownloader = new ExcelDownloader(update, categoryService);
-        Future<String> future = executorService.submit(excelDownloader);
-        try {
-            result = future.get();
-            System.out.println(result);
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        } finally {
-            executorService.shutdown();
-        }
-        return result;
+        return excelDownloader.getExelFromDB(update);
     }
 }

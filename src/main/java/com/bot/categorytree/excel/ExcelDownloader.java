@@ -21,7 +21,7 @@ import java.util.concurrent.Callable;
  * пользователю
  */
 
-public class ExcelDownloader implements Callable<String> {
+public class ExcelDownloader {
 
     private static final String CATEGORY_TREE = "documents/category tree ";
     private static final String XLSX_FORMAT = ".xlsx";
@@ -41,7 +41,7 @@ public class ExcelDownloader implements Callable<String> {
      *      *               из JSON in JAVA class
      * @return путь к файлу
      */
-    private synchronized String getExelFromDB(Update update) {
+    public String getExelFromDB(Update update) {
         System.out.println("Начало загрузки");
         long chatId = update.getMessage().getChatId();
         // Получаем всё дерево элементов из базы по чату пользователя
@@ -65,7 +65,6 @@ public class ExcelDownloader implements Callable<String> {
                     Cell cell = row.createCell(position);
                     cell.setCellValue(category.getCategoryName());
                     initRow(sheet,parentCategories,position);
-
                     // Если есть родительский элемент, передвигаем кусор в документе слева направо
                     position++;
                 }
@@ -107,8 +106,4 @@ public class ExcelDownloader implements Callable<String> {
 
     }
 
-    @Override
-    public String call() throws Exception {
-        return getExelFromDB(this.update);
-    }
 }
