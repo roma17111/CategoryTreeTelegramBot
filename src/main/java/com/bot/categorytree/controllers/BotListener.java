@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+/**
+ * Класс используется
+ * для обработки событий от пользователя
+ */
+
 @Component
 public class BotListener extends TelegramLongPollingBot {
 
@@ -26,11 +31,19 @@ public class BotListener extends TelegramLongPollingBot {
         this.documentsHandler = documentsHandler;
     }
 
+    /**
+     * Регистрация бота перед
+     * внедрением Spring BEAN
+     */
     @PostConstruct
     public void init() {
         botConfig.registerBot(this);
     }
 
+    /**
+     * Обработка событий от пользователя
+     * @param update Update received
+     */
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -42,6 +55,10 @@ public class BotListener extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Получения логина тг бота
+     * @return bot username
+     */
     @Override
     public String getBotUsername() {
         return botConfig.getUsername();

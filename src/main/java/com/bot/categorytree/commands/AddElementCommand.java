@@ -11,6 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+/**
+ * Класс отвечает за добавление элементов в дерево
+ * категорий.
+ */
+
 @Service
 @RequiredArgsConstructor
 @EqualsAndHashCode
@@ -24,6 +29,12 @@ public class AddElementCommand implements BotCommand {
     private final MessageService messageService;
     private final CategoryService categoryService;
 
+    /**
+     * Инициализация команды
+     *
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               *               из JSON in JAVA class
+     */
     @Override
     public void initCommand(Update update) {
         String[] elements = initValidator(update).getElements();
@@ -41,6 +52,13 @@ public class AddElementCommand implements BotCommand {
         }
     }
 
+    /**
+     * Метод для добавленя элемента комманд
+     *
+     * @param update   Данные пользователя из тг, десеарлизованные
+     *                 *      *               из JSON in JAVA class
+     * @param elements String parsing to array of elements
+     */
     public void addElement(Update update, String[] elements) {
         long chatId = update.getMessage().getChatId();
         String parent = elements[1];
@@ -58,6 +76,12 @@ public class AddElementCommand implements BotCommand {
         }
     }
 
+    /**
+     * Добавления корня к дереву
+     *
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               *      *               из JSON in JAVA class
+     */
     private void addRoot(Update update) {
         String root = initValidator(update).getRoot();
         if (root.isEmpty()) {
@@ -69,6 +93,12 @@ public class AddElementCommand implements BotCommand {
         }
     }
 
+    /**
+     * Инициализация объекта-валидатора
+     * @param update Данные пользователя из тг, десеарлизованные
+     *      *      *               из JSON in JAVA class
+     * @return CommandValidator object
+     */
     private CommandValidator initValidator(Update update) {
         String text = update.getMessage().getText();
         return new CommandValidator(text);

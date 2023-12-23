@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * Entity сущность для удобства работы
+ * в контексте при выгрузке excel documenta
+ */
+
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "id")

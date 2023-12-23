@@ -17,6 +17,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
 
+/**
+ * Класс для обработки
+ * выгруженного excel document
+ * пользователем в тг бот для
+ * изменений в БД
+ */
+
 @AllArgsConstructor
 public class ExcelUploader implements Callable<Boolean> {
 
@@ -28,11 +35,20 @@ public class ExcelUploader implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-        if (!upload(file)) {
-            return false;
-        }
-        return true;
+        return upload(file);
     }
+
+    /**
+     * Метод с основной логикой по
+     * обработке выгруженного документа
+     * @param file Метод принимает преобразованный файл после выгрузки в бот
+     * @return результат выгрузки
+     * @throws InvalidExcelException Некорректный документ
+     * @throws IOException Исключение при работе с потоками ввода вывода
+     * @throws InvalidFormatException некорректный формат документа
+     * @throws ElementIsAlreadyExistException элемент уже существует в базе
+     * @throws ParentNotFoundException Корневой элемент не найден в базе
+     */
 
     private boolean upload(File file) throws InvalidExcelException, IOException, InvalidFormatException, ElementIsAlreadyExistException, ParentNotFoundException {
         if (!isValidExcel(file)) {
@@ -40,10 +56,13 @@ public class ExcelUploader implements Callable<Boolean> {
         }
 
         long chatId = update.getMessage().getChatId();
+
+        //Очистка БД
         categoryService.deleteAllByChatId(chatId);
 
         int count = 0;
 
+        //Подсчёт необходимых сдвигов вправо в документе
         try (Workbook workbook = new XSSFWorkbook(file)) {
             for (Row cell : workbook.getSheetAt(0)) {
                 for (Cell cell1 : cell) {
@@ -53,26 +72,34 @@ public class ExcelUploader implements Callable<Boolean> {
                     count++;
                 }
             }
-
-            System.out.println(count);
-
             for (int i = 0; i < count; i++) {
+                //Вызов метода для считывания данных сверху вниз
                 initRow(workbook, i);
-                System.out.println("-----------");
             }
         }
         return true;
     }
 
-    private void initRow(Workbook workbook, int count) throws ElementIsAlreadyExistException, ParentNotFoundException {
+    /**
+     * Метод для считывания данных сверху вниз
+     * @param workbook Рабочая книга
+     * @param position Позиция в колонке слева на права
+     *                 для итерации сверху вниз
+     * @throws ElementIsAlreadyExistException Элемент уже есть в базе
+     * @throws ParentNotFoundException Родительский элемент не найден.
+     */
+
+    private void initRow(Workbook workbook, int position) throws ElementIsAlreadyExistException, ParentNotFoundException {
         List<String> elements = new ArrayList<>();
         for (Row cell : workbook.getSheetAt(0)) {
-            if (cell.getCell(count) == null) {
+            // Проходим по элементам вниз. Если элементов нет, пропускаем шаг
+            if (cell.getCell(position) == null) {
                 continue;
             }
-            String text = cell.getCell(count).getStringCellValue();
+            String text = cell.getCell(position).getStringCellValue();
             elements.add(text);
         }
+        // Вызов метода для добавления коллекции элементов, считанных сверху вниз
         addElementsToDb(elements);
     }
 
@@ -85,7 +112,6 @@ public class ExcelUploader implements Callable<Boolean> {
         }
         for (int i = 1; i < elements.size(); i++) {
             String element = elements.get(i);
-            System.out.println(element);
             categoryService.addElement(parent,element,chatId);
         }
     }

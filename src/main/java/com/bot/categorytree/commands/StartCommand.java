@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+/**
+ * /start bot command
+ */
 @Component
 @RequiredArgsConstructor
 @EqualsAndHashCode
@@ -15,6 +18,11 @@ public class StartCommand implements BotCommand {
 
     private final MessageService messageService;
 
+    /**
+     * Инициализация команды
+     * @param update Данные пользователя из тг, десеарлизованные
+     *      *               из JSON in JAVA class
+     */
     @Override
     public void initCommand(Update update) {
         String text = getStartText(update);

@@ -12,6 +12,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+/**
+ * Стартовые настройки тг бота
+ */
+
 @Configuration
 @Getter
 public class BotConfig {
@@ -22,6 +26,12 @@ public class BotConfig {
     @Value("${bot.token}")
     private String botToken;
 
+    /**
+     * Регистрация тг бота для взаимодействия
+     * с telegram API
+     * @param bot СЛужебный класс для взаимодействия бота
+     *            с пользователем из библиотеки telegrambots
+     */
     public void registerBot(TelegramLongPollingBot bot) {
         try {
             TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);

@@ -6,6 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+/**
+ * Обработка команды /help
+ * для помощи новому пользователю бота
+ */
 @Service
 @RequiredArgsConstructor
 @EqualsAndHashCode
@@ -30,6 +34,11 @@ public class HelpCommand implements BotCommand {
 
     private final MessageService messageService;
 
+    /**
+     * Инициализация команды
+     * @param update Данные пользователя из тг, десеарлизованные
+     *      *               из JSON in JAVA class
+     */
     @Override
     public void initCommand(Update update) {
         messageService.sendPhotoAndText(update, TEXT,HELP_PHOTO_PATH);

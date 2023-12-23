@@ -1,5 +1,11 @@
 package com.bot.categorytree.util;
 
+/**
+ * Класс содержит константы
+ * с Эмоджи для более красивого
+ * представления информации пользователю
+ */
+
 public class Emojis {
 
     public static final String ERROR = "⛔";

@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * Entity сущность категорий дерева
+ * для работы с БД
+ */
+
 @Entity
 @Table(name = "categories")
 @Getter

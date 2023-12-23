@@ -10,6 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+/**
+ * Класс для обработки команды
+ * удаления элементов
+ */
+
 @Service
 @RequiredArgsConstructor
 public class RemoveElementCommand implements BotCommand {
@@ -20,13 +25,17 @@ public class RemoveElementCommand implements BotCommand {
     private static final String ERROR_MESSAGE = Emojis.ERROR + "Ошибка при удалении элемента!\n" +
             "Пример: /removeElement <b>название элемента</b>";
 
+    /**
+     * Инициализация команды
+     * @param update Данные пользователя из тг, десеарлизованные
+     *      *               из JSON in JAVA class
+     */
     @Override
     public void initCommand(Update update) {
         long chatId = update.getMessage().getChatId();
         String text = update.getMessage().getText();
         CommandValidator commandValidator = new CommandValidator(text);
         String el = commandValidator.getRemoveElement();
-        System.out.println(el);
         if (el.isEmpty()) {
             messageService.sendMessage(update, ERROR_MESSAGE);
         } else {

@@ -29,6 +29,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Данный класс служит для
+ * обработки документов, присланных
+ * прльзователем в телеграмм бот
+ */
+
 @Service
 @RequiredArgsConstructor
 public class DocumentsHandler {
@@ -37,6 +43,13 @@ public class DocumentsHandler {
     private final MessageService messageService;
     private final CategoryService categoryService;
     private final BotConfig botConfig;
+
+    /**
+     * Основной входной метод для
+     * обработки входных документов
+     * @param update Класс библиотеки telegram bots
+     *               для обработки входящих данных от пользователя
+     */
 
     public void init(Update update) {
         long chatId = update.getMessage().getChatId();
@@ -59,6 +72,17 @@ public class DocumentsHandler {
         }
     }
 
+    /**
+     * Метод для инициализации загрузки
+     * документов в тг бот
+     * @param file Файл документа
+     * @param update Класс - обработчик данных из телеграмм
+     * @throws ExecutionException Обработка Ошибок ExecuterService
+     * @throws InterruptedException Обработка ошибок при выполнении потока
+     * @throws InvalidExcelException Обработка ошибок при
+     *                               некорректно выгруженном документе пользователем
+     */
+
     private void upload(File file,Update update) throws ExecutionException, InterruptedException, InvalidExcelException {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         ExcelUploader uploader = new ExcelUploader(categoryService, file,update);
@@ -68,6 +92,14 @@ public class DocumentsHandler {
         }
     }
 
+    /**
+     * Преобразование отправленного файла пользователем
+     * в обычный файл для дальнейшего проброса в специальный класс
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               из JSON in JAVA class
+     * @return обычный файл из стандартной библиотеки java
+     * @throws IOException Обработка ошибок потоков ввода-вывода
+     */
     private File getFileFromBot(Update update) throws IOException {
         GetFile getFileMethod = new GetFile(update.getMessage().getDocument().getFileId());
         File f = File.createTempFile("document", "doc.xlsx", new File("documents"));

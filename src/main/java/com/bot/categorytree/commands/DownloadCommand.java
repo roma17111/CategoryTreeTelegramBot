@@ -13,6 +13,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Класс для обработки загрузки excel document
+ * с деревом категорий
+ */
+
 @Service
 @RequiredArgsConstructor
 public class DownloadCommand implements BotCommand {
@@ -20,6 +25,12 @@ public class DownloadCommand implements BotCommand {
     private final CategoryService categoryService;
     private final MessageService messageService;
 
+    /**
+     * Инициализация команды
+     *
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               *               из JSON in JAVA class
+     */
     @Override
     public void initCommand(Update update) {
         String file = getFIlePath(update);
@@ -30,6 +41,15 @@ public class DownloadCommand implements BotCommand {
         }
     }
 
+    /**
+     * Метод для получения пути к готовому excel
+     * файлу для прямого делегирования в инит метод и
+     * отправке пользователю.
+     *
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               из JSON in JAVA class
+     * @return path to excel file
+     */
     private String getFIlePath(Update update) {
         String result = "";
         ExecutorService executorService = Executors.newSingleThreadExecutor();

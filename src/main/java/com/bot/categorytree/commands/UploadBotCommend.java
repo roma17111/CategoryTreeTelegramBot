@@ -14,6 +14,12 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс для обработки команды загрузки
+ * excel документа пользователем в бот
+ * /upload
+ */
+
 @Service
 @RequiredArgsConstructor
 public class UploadBotCommend implements BotCommand, Callback {
@@ -25,6 +31,12 @@ public class UploadBotCommend implements BotCommand, Callback {
     private final MessageService messageService;
     private final BotContextService botContextService;
 
+    /**
+     * Инициализация команды
+     *
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               *               из JSON in JAVA class
+     */
     @Override
     public void initCommand(Update update) {
         long chatId = update.getMessage().getChatId();
@@ -32,6 +44,14 @@ public class UploadBotCommend implements BotCommand, Callback {
         getLoadKeyboard(update);
     }
 
+    /**
+     * Отправка сообщения пользователю
+     * о предложении прикрепить готовый документ боту.
+     * Есть кнопка для отмены операции, если пользователь передумал
+     *
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               из JSON in JAVA class
+     */
     private void getLoadKeyboard(Update update) {
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         InlineKeyboardButton button = new InlineKeyboardButton(CANCEL_TEXT);
@@ -42,12 +62,25 @@ public class UploadBotCommend implements BotCommand, Callback {
         messageService.sendMessagePlusKeyboard(update, DOCUMENT_TEXT, markup);
     }
 
+    /**
+     * Метод по обработки логики
+     * после нажатии об отмене выгрузки
+     * документа в бот
+     *
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               из JSON in JAVA class
+     */
     private void cancelUpload(Update update) {
         long chatId = update.getCallbackQuery().getMessage().getChatId();
-        botContextService.initDownload(chatId,false);
-        messageService.editMessage(update,Emojis.OK+"Выгрузка отменена");
+        botContextService.initDownload(chatId, false);
+        messageService.editMessage(update, Emojis.OK + "Выгрузка отменена");
     }
 
+    /**
+     * Метод по обработки нажатия отмены загрузки
+     * @param update Данные пользователя из тг, десеарлизованные
+     *      *               из JSON in JAVA class
+     */
     @Override
     public void ifCallback(Update update) {
         String data = update.getCallbackQuery().getData();

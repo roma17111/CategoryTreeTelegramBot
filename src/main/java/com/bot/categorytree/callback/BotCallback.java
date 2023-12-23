@@ -14,15 +14,30 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс для обработки основной логики
+ * при нажатии пользователем тг бота на кнопку
+ */
+
 @Service
 @RequiredArgsConstructor
-public class BotCallback implements Callback{
+public class BotCallback implements Callback {
 
     private final CategoryService categoryService;
     private final MessageService messageService;
     private final UploadBotCommend uploadBotCommend;
 
 
+    /**
+     * Метод, отвечающий за отправку сообщения с кнопками
+     * или без кнопок после нажатия команды /viewTree.
+     * Если дерево пустое, отправляется соответствующее сообщение,
+     * что дерево пустое
+     *
+     * @param update   Данные пользователя из тг, десеарлизованные
+     *                 *               из JSON in JAVA class
+     * @param category Entity сущность класса категории
+     */
     private void setCategoryKeyboard(Update update, Category category) {
         long chatId = update.getCallbackQuery().getMessage().getChatId();
         String element = "";
@@ -52,6 +67,7 @@ public class BotCallback implements Callback{
         messageService.editMessagePlusKeyboard(update, text, markup);
     }
 
+
     public void getCategoryKeyboard(Update update) {
         long chatId = update.getMessage().getChatId();
         Category category = categoryService.getRootByChatId(chatId);
@@ -77,6 +93,11 @@ public class BotCallback implements Callback{
     }
 
 
+    /**
+     * Основная логика обработки нажатий на кнопки пользователем
+     * @param update Данные пользователя из тг, десеарлизованные
+     *               *               из JSON in JAVA class
+     */
     @Override
     public void ifCallback(Update update) {
         String data = update.getCallbackQuery().getData();
