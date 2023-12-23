@@ -42,8 +42,6 @@ public class CategoryService {
         Category category = Category.builder()
                 .categoryName(root.toLowerCase())
                 .chatId(chatId)
-                .callback(UUID.randomUUID().toString())
-                .backCallback(UUID.randomUUID().toString())
                 .build();
         categoryRepository.save(category);
         return true;
@@ -73,8 +71,7 @@ public class CategoryService {
         } else {
             Category category = Category.builder()
                     .chatId(chatId)
-                    .callback(UUID.randomUUID().toString())
-                    .backCallback(UUID.randomUUID().toString())
+
                     .categoryName(childEl.toLowerCase())
                     .parrentCategory(parent)
                     .build();
@@ -91,7 +88,6 @@ public class CategoryService {
      */
     public void removeElement(String element, long chatId) throws CategoryNotFoundException, RemoveElementException {
         Category category = categoryRepository.findByChatIdAndCategoryName(chatId, element);
-        System.out.println(category);
         if (category == null) {
             throw new CategoryNotFoundException();
         }

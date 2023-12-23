@@ -14,7 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Класс для обработки
@@ -44,7 +43,6 @@ public class ExcelDownloader {
      * @return путь к файлу
      */
     public String getExelFromDB(Update update) {
-        System.out.println("Начало загрузки");
         long chatId = update.getMessage().getChatId();
         // Получаем всё дерево элементов из базы по чату пользователя
         List<Category> categories = categoryService.getTree(chatId);
@@ -98,7 +96,6 @@ public class ExcelDownloader {
                          int rowPosition) {
         for (int i = 0; i < parentCategories.size(); i++) {
             Category c = parentCategories.get(i);
-            System.out.println(c.getCategoryName());
             Row row = sheet.getRow(i + 1);
             if (row == null) {
                 row = sheet.createRow(i + 1);

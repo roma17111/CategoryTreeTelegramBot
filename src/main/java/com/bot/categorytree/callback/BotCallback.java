@@ -42,11 +42,8 @@ public class BotCallback implements Callback {
         long chatId = update.getCallbackQuery().getMessage().getChatId();
         String element = "";
         boolean isRoot = categoryService.getRootByChatId(chatId).equals(category);
-        if (isRoot) {
-            element = "Корень";
-        } else {
-            element = "Родительская категория";
-        }
+        element = isRoot ? "Корень" : "Родительская категория";
+
         String text = String.format("Сртруктура дерева:\n\n%s <b>%s</b>", element, category.getCategoryName());
         List<Category> categoryList = categoryService.findAllByParentCategoryAndChatId(category, chatId);
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
@@ -54,13 +51,13 @@ public class BotCallback implements Callback {
         if (!categoryList.isEmpty()) {
             categoryList.forEach(el -> {
                 InlineKeyboardButton button = new InlineKeyboardButton(Emojis.BRANCH + " " + el.getCategoryName());
-                button.setCallbackData(el.getCallback());
+                button.setCallbackData(String.valueOf(el.getId()));
                 rows.add(List.of(button));
             });
         }
         if (!isRoot) {
             InlineKeyboardButton back = new InlineKeyboardButton(Emojis.BACK + "Назад");
-            back.setCallbackData(category.getBackCallback());
+            back.setCallbackData(String.valueOf(category.getParrentCategory().getId()));
             rows.add(List.of(back));
         }
         markup.setKeyboard(rows);
@@ -85,7 +82,7 @@ public class BotCallback implements Callback {
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         categoryList.forEach(el -> {
             InlineKeyboardButton button = new InlineKeyboardButton(Emojis.BRANCH + " " + el.getCategoryName());
-            button.setCallbackData(el.getCallback());
+            button.setCallbackData(String.valueOf(el.getId()));
             rows.add(List.of(button));
         });
         markup.setKeyboard(rows);
@@ -103,10 +100,8 @@ public class BotCallback implements Callback {
         String data = update.getCallbackQuery().getData();
         long chatId = update.getCallbackQuery().getMessage().getChatId();
         categoryService.getTree(chatId).forEach(el -> {
-            if (data.equals(el.getCallback())) {
+            if (data.equals(String.valueOf(el.getId()))) {
                 setCategoryKeyboard(update, el);
-            } else if (data.equals(el.getBackCallback())) {
-                setCategoryKeyboard(update, el.getParrentCategory());
             }
         });
         if (data == null) {
