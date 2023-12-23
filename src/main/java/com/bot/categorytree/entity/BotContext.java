@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "id")
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
