@@ -2,8 +2,8 @@ spring:
   liquibase:
     change-log: db/changelog/master.xml
   datasource:
-    url: "jdbc:postgresql://paganell.webtm.ru:5432/category_tree"
-    username: "paganell"
+    url: "jdbc:postgresql://localhost:5432/category_tree"
+    username: "user"
     password: "12345"
   jpa:
     show-sql: true
